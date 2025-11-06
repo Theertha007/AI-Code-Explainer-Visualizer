@@ -71,9 +71,29 @@
             </div>
 
             <!-- Visual Flowchart -->
-            <div class="bg-gray-800 rounded-lg shadow-lg p-6 animate-fade-in-delay">
-              <h2 class="text-2xl font-bold mb-4 text-indigo-400">Visual Flowchart</h2>
-              <div class="w-full min-h-[300px] flex items-center justify-center bg-gray-900 rounded-md p-4">
+            <div class="bg-gray-800 rounded-lg shadow-lg p-6 animate-fade-in-delay flex flex-col">
+              <div class="flex justify-between items-center mb-4">
+                 <h2 class="text-2xl font-bold text-indigo-400">Visual Flowchart</h2>
+                 <button
+                    (click)="showMermaidCode.set(!showMermaidCode())"
+                    class="text-sm text-gray-400 hover:text-white bg-gray-700/50 hover:bg-gray-700 px-3 py-1 rounded-md transition-colors"
+                  >
+                    @if (showMermaidCode()) {
+                      <span>Hide</span>
+                    } @else {
+                      <span>Show</span>
+                    }
+                    Code
+                  </button>
+              </div>
+
+              @if (showMermaidCode()) {
+                <div class="mb-4">
+                  <pre class="bg-gray-900 rounded-md p-4 text-sm text-yellow-300 font-mono whitespace-pre-wrap break-all"><code>{{ result.mermaidGraph }}</code></pre>
+                </div>
+              }
+              
+              <div class="w-full flex-grow min-h-[300px] flex items-center justify-center bg-gray-900 rounded-md p-4">
                 <app-mermaid [graph]="result.mermaidGraph"></app-mermaid>
               </div>
             </div>

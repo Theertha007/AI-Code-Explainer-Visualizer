@@ -70,7 +70,11 @@ export class MermaidComponent implements AfterViewInit {
     try {
       // Use a unique ID to prevent mermaid from complaining about duplicate IDs on re-render.
       const uniqueId = `mermaid-graph-${Date.now()}`;
-      const { svg } = await mermaid.render(uniqueId, graphDefinition);
+
+      // Sanitize the graph definition to remove common syntax errors like unsupported comments.
+      const sanitizedGraph = graphDefinition.replace(/\s*\/\/.*$/gm, '');
+      
+      const { svg } = await mermaid.render(uniqueId, sanitizedGraph);
       containerElement.innerHTML = svg;
     } catch (e) {
       console.error('Error rendering Mermaid diagram:', e);

@@ -26,6 +26,17 @@
   }
 }
 </script>
+<script>
+  // FOR LOCAL DEVELOPMENT ONLY
+  // This is a simple way to provide the API key.
+  // 1. Get your key from Google AI Studio: https://aistudio.google.com/app/apikey
+  // 2. Replace 'YOUR_API_KEY_HERE' with your actual API key.
+  window.process = {
+    env: {
+      API_KEY: 'YOUR_API_KEY_HERE'
+    }
+  };
+</script>
 </head>
 <body class="bg-gray-900">
   <app-root></app-root>

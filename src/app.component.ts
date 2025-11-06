@@ -36,6 +36,7 @@ main()`;
   analysisResult = signal<AnalysisResult | null>(null);
   isLoading = signal<boolean>(false);
   error = signal<string | null>(null);
+  showMermaidCode = signal<boolean>(false);
 
   explanationHtml = computed<SafeHtml | null>(() => {
     const result = this.analysisResult();
@@ -63,6 +64,7 @@ main()`;
     this.isLoading.set(true);
     this.error.set(null);
     this.analysisResult.set(null);
+    this.showMermaidCode.set(false); // Hide code on new analysis
 
     try {
       const result = await this.geminiService.analyzeCode(this.code());

@@ -23,7 +23,12 @@ export class GeminiService {
   async analyzeCode(code: string): Promise<AnalysisResult> {
     const prompt = `You are an expert code analyst. Analyze the following code snippet. 
 Provide a step-by-step execution flow explanation and a Mermaid syntax flowchart representing the logic. 
-Respond ONLY with a valid JSON object.`;
+Respond ONLY with a valid JSON object.
+
+Here is the code to analyze:
+\`\`\`
+${code}
+\`\`\``;
 
     const responseSchema = {
       type: Type.OBJECT,
@@ -34,7 +39,7 @@ Respond ONLY with a valid JSON object.`;
         },
         mermaidGraph: {
           type: Type.STRING,
-          description: "A string containing the complete and valid Mermaid syntax for a flowchart (graph TD) that visually represents the code's logic and structure. Ensure the syntax is complete, does not contain any errors, and does NOT use semicolons at the end of lines."
+          description: "A string containing complete and valid Mermaid syntax for a top-down flowchart starting with 'graph TD;'. The syntax must be flawless. Use '-->' for arrows. CRITICAL RULE: Any node label containing special characters (like parentheses, commas, etc.) MUST be enclosed in double quotes. For example, use 'A[\"Call my_function(x)\"]' NOT 'A[Call my_function(x)]'. Ensure all nodes are defined before use. Do not wrap the Mermaid syntax in a markdown code block."
         },
       },
       required: ["explanation", "mermaidGraph"]
@@ -43,11 +48,7 @@ Respond ONLY with a valid JSON object.`;
     try {
       const response = await this.ai.models.generateContent({
         model: 'gemini-2.5-flash',
-        contents: [
-          { role: 'user', parts: [{ text: prompt }] },
-          { role: 'user', parts: [{ text: "Here is the code:" }] },
-          { role: 'user', parts: [{ text: '```\n' + code + '\n```' }] },
-        ],
+        contents: prompt,
         config: {
           responseMimeType: 'application/json',
           responseSchema: responseSchema,
