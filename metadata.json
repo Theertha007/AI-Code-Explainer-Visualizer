@@ -1,0 +1,5 @@
+{
+  "name": "AI Code Explainer & Visualizer",
+  "description": "An application that uses AI to analyze code snippets, generating a step-by-step textual explanation and a visual flowchart diagram in Mermaid syntax.",
+  "requestFramePermissions": []
+}
